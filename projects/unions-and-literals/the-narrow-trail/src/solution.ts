@@ -1,61 +1,84 @@
-export function runCommands() {
-	let nextSupply: "food" | "water" | undefined;
-	let food = 5;
-	let water = 5;
+export function runCommands(): boolean {
+    let state: "Water" | "Food" | "" = "";
+	let food: number = 5;
+    let water: number = 5;
+    let day: number = 0;
 
-	for (let time = 1; time <= 7; time += 1) {
-		const randomNumber = Math.floor(Math.random() * 6) + 1;
-		let command: "finish" | "food" | "water" | number;
+    while (day < 8) {
+        if (food == 0 || water == 0) {
+            return false
+        }
+        let dice: number = Math.floor(Math.random() * 6) + 1;
+        day += 1
+        
 
-		switch (randomNumber) {
-			case 1:
-				command = "food";
-				break;
-
-			case 2:
-				command = "water";
-				break;
-
-			default:
-				command = randomNumber;
-				break;
-		}
-
-		if (typeof command === "number") {
-			switch (nextSupply) {
-				case "food":
-					food += command;
-					nextSupply = undefined;
-					break;
-
-				case "water":
-					water += command;
-					nextSupply = undefined;
-					break;
-
-				default:
-					nextSupply = randomNumber % 2 === 0 ? "food" : "water";
-					break;
-			}
-		}
-
-		switch (command) {
-			case "food":
-				nextSupply = "food";
-				break;
-
-			case "water":
-				nextSupply = "water";
-				break;
-		}
-
-		food -= 1;
-		water -= 1;
-
-		if (food === 0 || water === 0) {
-			return false;
-		}
-	}
-
-	return true;
+        switch(dice) {
+            case 1:
+                food -= 1;
+                water -= 1;
+                state = "Food"
+                break;
+            case 2:
+                food -= 1;
+                water -= 1;
+                state = "Water"
+                break;
+            case 3:
+                if (state == "") {
+                    state = "Water"
+                } else if (state == "Water") {
+                    water += 3
+                    state = ""
+                } else if (state == "Food") {
+                    food += 3;
+                    state = "";
+                }
+                food -= 1;
+                water -= 1;
+                break;
+            case 4:
+                if (state == "") {
+                    state = "Food"
+                } else if (state == "Water") {
+                    water += 4
+                    state = ""
+                } else if (state == "Food") {
+                    food += 4;
+                    state = "";
+                }
+                food -= 1;
+                water -= 1;
+                break;
+            case 5:
+                if (state == "") {
+                    state = "Water"
+                } else if (state == "Water") {
+                    water += 5
+                    state = ""
+                } else if (state == "Food") {
+                    food += 5;
+                    state = "";
+                }
+                food -= 1;
+                water -= 1;
+                break;
+            case 6:
+                if (state == "") {
+                    state = "Food"
+                } else if (state == "Water") {
+                    water += 6
+                    state = ""
+                } else if (state == "Food") {
+                    food += 6;
+                    state = "";
+                }
+                food -= 1;
+                water -= 1;
+                break;
+        }
+    } 
+    return true
+    
 }
+
+runCommands()

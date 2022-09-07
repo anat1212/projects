@@ -1,22 +1,20 @@
-export type CodeCrackerOptions = {
-	attempts: number;
-	makeGuess: (text: string, attempt: number) => string;
-	validateGuess: (guess: string) => boolean;
-};
+type scripter = {
+    attempts: number,
+    makeGuess:  (text: string, attempt: number) => string,
+    validateGuess: (guess: string) => boolean,
+}
 
-export function createCodeCracker({
-	attempts,
-	makeGuess,
-	validateGuess,
-}: CodeCrackerOptions) {
-	return (text: string) => {
-		for (let i = 0; i < attempts; i += 1) {
-			const guess = makeGuess(text, i);
-			if (validateGuess(guess)) {
-				return guess;
-			}
-		}
 
-		return undefined;
-	};
+function createCodeCracker(myObject: scripter) {
+    return (text: string) => {
+        for (let j = 1; j<= myObject.attempts; j++) {
+            let attempt = myObject.makeGuess(text, j)
+            let answer = myObject.validateGuess(attempt)
+            if (answer == true) {
+                return true
+            }
+        }
+        return undefined
+    }
+    
 }
